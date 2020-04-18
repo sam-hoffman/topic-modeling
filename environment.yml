@@ -1,0 +1,7 @@
+name: covid-tweets
+channels: conda-forge
+dependencies:
+  - pyspark
+  - numpy
+  - pandas
+  - jupyter
