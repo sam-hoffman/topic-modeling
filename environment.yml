@@ -1,7 +1,13 @@
 name: covid-tweets
-channels: conda-forge
+channels: 
+  - conda-forge
 dependencies:
   - pyspark
   - numpy
   - pandas
   - jupyter
+  - black
+  - pyarrow
+  - gensim
+pip:
+  - demoji
