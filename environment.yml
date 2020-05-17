@@ -10,5 +10,7 @@ dependencies:
   - pyarrow
   - gensim
   - jupyter
+  - pyarrow
+  - seaborn
   - pip: 
     - twarc
