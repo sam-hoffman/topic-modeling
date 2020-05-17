@@ -9,5 +9,6 @@ dependencies:
   - black
   - pyarrow
   - gensim
-pip:
-  - demoji
+  - jupyter
+  - pip: 
+    - twarc
