@@ -9,8 +9,8 @@ import os
 
 print(os.getcwd())
 spark = SparkSession.builder.config("spark.worker.cleanup.enabled", "true") .config("spark.worker.cleanup.interval", 60) .getOrCreate() 
-df = spark.read.json("/user/hadoop/cleaned_tweets/")
-# df = df.sample(0.5)
+df = spark.read.json("s3://covid-tweets/cleaned-tweets")
+# df = df.sample(0.05)
 df = df.withColumn("dt", to_date("created_at", "EEE MMM dd HH:mm:ss +SSSS yyy")) 
 df = df.withColumn("id", monotonically_increasing_id())
 df = df.withColumn("split_text", split(df.cleaned_text, " "))
@@ -35,6 +35,7 @@ def topic_render(topic):
 topic_render_udf = udf(topic_render, ArrayType(StringType()))
 
 described = described.withColumn("translated", topic_render_udf(described.termIndices))
-# described.repartition(1).write.mode("overwrite").json("/user/hadoop/results")
+described.repartition(1).write.mode("overwrite").json("s3://covid-tweets/model-summary")
 
-described.select("translated").show()
+fit = lda_model.transform(result_cv)
+fit.write.mode("overwrite").json("s3://covid-tweets/fit-tweets")
